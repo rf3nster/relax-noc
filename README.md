@@ -16,13 +16,21 @@ Without modification to any scripts, it is assumed that Modelsim is found in `$P
 The following user-configurable parameters can be found in [`./src/shared/noc_parameterspkg.vhd`](https://github.com/rf3nster/relax-noc/src/shared/noc_parameterspkg.vhd):
 
 Network X dimension: `x_size`
+
 Network Y dimension: `y_size`
+
 Max number of simulation cycles: `clock_cycle_max`
+
 Number of simulation cycles per period: `packet_period_size`
+
 Number of packets to inject: `packet_qty`
+
 Traffic injector buffer size: `inj_buffer_depth`
+
 Accurate data weight: `acc_data_weight`
+
 Approximate data weight: `apx_data_weight`
+
 FIFO depth/Number of slots: `fifo_depth`
 
 ## License and Warranty
