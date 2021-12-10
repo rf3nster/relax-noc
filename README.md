@@ -27,6 +27,6 @@ FIFO depth/Number of slots: `fifo_depth`
 
 ## License and Warranty
 
-RELAX is licensed under the Apache license version 2.0. For more information, see [LICENSE.md](https://github.com/rf3nster/relax-noc/license.md). **This software comes with absolutely no support or warranty!**
+RELAX is licensed under the Apache license version 2.0. For more information, see [LICENSE.md](https://github.com/rf3nster/relax-noc/blob/main/LICENSE.md). **This software comes with absolutely no support or warranty!**
 
 RELAX includes and uses [OSVVM](https://github.com/OSVVM/OSVVM) for simulation, which is distributed under the Apache license version 2.0 as well.
