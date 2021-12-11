@@ -43,7 +43,7 @@ package tx_componentspkg is
 			tx_select  : in    std_logic;
 			rx_poprqst : out   std_logic;
 
-			-- FIFO Control signals
+			-- FIFO control signals
 			fifo_writeen     : out   std_logic;
 			rx_dataavailable : in    std_logic
 		);
@@ -58,7 +58,7 @@ package tx_componentspkg is
 			-- FIFO status signals
 			fifo_empty : in    std_logic;
 
-			-- FIFO Control signals
+			-- FIFO control signals
 			fifo_popen : out   std_logic;
 
 			-- Channel signaling
@@ -79,7 +79,7 @@ package tx_componentspkg is
 			rst         : in    std_logic;
 			networkmode : in    std_logic;
 
-			-- TX Packet defines
+			-- TX packet defines
 			tx_packet_in  : in    packet_t;
 			tx_packet_out : out   packet_t;
 

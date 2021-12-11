@@ -51,6 +51,7 @@ architecture tx_writefsm_impl of tx_writefsm is
 
 	type fsm_state_t is (txWriteState_IDLE, txWriteState_EN);
 
+	-- Instantiate FSM State Signals	
 	signal fsm_state      : fsm_state_t; 
 	signal fsm_state_next : fsm_state_t; 
 

@@ -65,7 +65,7 @@ end entity tx_top;
 
 architecture tx_top_impl of tx_top is
 
-	attribute dont_touch : string;
+	attribute dont_touch                  : string;
 	attribute dont_touch of channela_fifo : label is "TRUE";
 	attribute dont_touch of channelb_fifo : label is "TRUE";
 
@@ -94,6 +94,7 @@ begin
 	tx_channela_fifo_in (addr_data_size - 1 downto 0)                                  <= tx_packet_in.addra;        
 	tx_packet_out.dataa                                                                <= tx_channela_fifo_out (addr_data_size + channel_data_size - 1 downto addr_data_size);
 	tx_packet_out.addra                                                                <= tx_channela_fifo_out (addr_data_size - 1 downto 0);   
+	
 	-- Concatenate everything (Channel B)
 	tx_channelb_fifo_in (addr_data_size + channel_data_size - 1 downto addr_data_size) <= tx_packet_in.datab;
 	tx_channelb_fifo_in (addr_data_size - 1 downto 0)                                  <= tx_packet_in.addrb;        

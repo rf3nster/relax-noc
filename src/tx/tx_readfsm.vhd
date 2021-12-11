@@ -46,7 +46,7 @@ end entity tx_readfsm;
 
 architecture tx_readfsm_impl of tx_readfsm is
 	
-	-- Define receiver pop state
+	-- Define transmitter pop state
 
 	type fsm_state_t is (txPopState_IDLE, txPopState_ACTIVE);
 
