@@ -71,12 +71,12 @@ entity xbar_top is
 		-- Data Available
 		--------------------------------------
 		-- RX
-		rx_channela_dataavail_in : in    xbar_dataavailable_t;
-		rx_channelb_dataavail_in : in    xbar_dataavailable_t;
+		rx_channela_dataavailable_in : in    xbar_dataavailable_t;
+		rx_channelb_dataavailable_in : in    xbar_dataavailable_t;
 
 		-- TX
-		tx_channela_dataavail_out : out   std_logic;
-		tx_channelb_dataavail_out : out   std_logic;
+		tx_channela_dataavailable_out : out   std_logic;
+		tx_channelb_dataavailable_out : out   std_logic;
 
 		--------------------------------------
 		-- Pop Request
@@ -111,13 +111,13 @@ architecture xbar_top_impl of xbar_top is
 	-- Channel A signaling
 	signal tx_channela_sel_i       : xbar_directionselect_t;
 	signal rx_channela_sel_i       : xbar_directionselect_t;
-	signal tx_channela_dataavail_i : std_logic;
+	signal tx_channela_dataavailable_i : std_logic;
 	signal rx_channela_poprqst_i   : std_logic;
 
 	-- Channel B signaling
 	signal tx_channelb_sel_i       : xbar_directionselect_t;
 	signal rx_channelb_sel_i       : xbar_directionselect_t;
-	signal tx_channelb_dataavail_i : std_logic;
+	signal tx_channelb_dataavailable_i : std_logic;
 	signal rx_channelb_poprqst_i   : std_logic;
 
 begin
@@ -339,8 +339,8 @@ begin
 			enable            => '1',
 			destaddr          => xbar_channelb_dest_i,
 			txselect          => tx_channelb_sel_i, 
-			dataavailable_out => tx_channelb_dataavail_i,
-			rx_dataavailable  => rx_channelb_dataavail_in,
+			dataavailable_out => tx_channelb_dataavailable_i,
+			rx_dataavailable  => rx_channelb_dataavailable_in,
 			rx_select         => acc_rx_select_i,
 			rx_poprqst_in     => tx_channelb_poprqst_in,
 			rx_poprqst_out    => rx_channelb_poprqst_i
@@ -356,8 +356,8 @@ begin
 			enable            => networkmode,
 			destaddr          => xbar_channela_dest_i,
 			txselect          => tx_channela_sel_i, 
-			dataavailable_out => tx_channela_dataavail_i,
-			rx_dataavailable  => rx_channela_dataavail_in,
+			dataavailable_out => tx_channela_dataavailable_i,
+			rx_dataavailable  => rx_channela_dataavailable_in,
 			rx_select         => apx_rx_select_i,
 			rx_poprqst_in     => tx_channela_poprqst_in,
 			rx_poprqst_out    => rx_channela_poprqst_i
@@ -369,7 +369,7 @@ begin
 			clk            => clk,
 			rst            => rst, 
 			secondcycle_en => networkmode,
-			dataavailable  => rx_channelb_dataavail_in,
+			dataavailable  => rx_channelb_dataavailable_in,
 			enable         => '1',
 			fifoselect     => acc_rx_select_i
 		);
@@ -380,7 +380,7 @@ begin
 			clk            => clk,
 			rst            => rst,
 			secondcycle_en => '0',
-			dataavailable  => rx_channela_dataavail_in,
+			dataavailable  => rx_channela_dataavailable_in,
 			enable         => networkmode,
 			fifoselect     => apx_rx_select_i
 		);
@@ -397,7 +397,7 @@ begin
 		
 	-- Cast channel B control signals externally
 	tx_channelb_sel           <= tx_channelb_sel_i;
-	tx_channelb_dataavail_out <= tx_channelb_dataavail_i;
+	tx_channelb_dataavailable_out <= tx_channelb_dataavailable_i;
 	rx_channelb_poprqst_out   <= rx_channelb_poprqst_i;
 	rx_channelb_sel           <= rx_channelb_sel_i;
 
@@ -406,8 +406,8 @@ begin
 	--------------------------------------
 	tx_channela_sel           <= tx_channela_sel_i when (networkmode = '1') else
 		tx_channelb_sel_i;
-	tx_channela_dataavail_out <= tx_channela_dataavail_i when (networkmode = '1') else
-			tx_channelb_dataavail_out;
+	tx_channela_dataavailable_out <= tx_channela_dataavailable_i when (networkmode = '1') else
+			tx_channelb_dataavailable_out;
 	rx_channela_poprqst_out   <= rx_channela_poprqst_i when (networkmode = '1') else
 			rx_channelb_poprqst_i;
 	rx_channela_sel           <= rx_channela_sel_i when (networkmode = '1') else

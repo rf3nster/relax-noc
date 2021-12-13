@@ -30,6 +30,9 @@ from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Border, Side, PatternFill, Font, GradientFill, Alignment
 print("================================================================================")  
+print("Continuing will erase all results stored in the directories.")
+input("Are you sure you want to continue? Press any key to continue or Ctrl-C to close.")
+print("================================================================================")  
 print("**** Preparing Environment ****")  
 # Grab injection rates from file
 try:
@@ -81,6 +84,10 @@ try:
     os.mkdir("transcript_data")    
 except OSError:
     print ("... Creation of the transcript data directory failed or already exists")
+try:
+    os.mkdir("results")    
+except OSError:
+    print ("... Creation of the Excel results directory failed or already exists")
 # Clean simulation env
 print("... Cleaning Environment")
 # Clean transcript CSVs
@@ -88,6 +95,12 @@ dir_name = os.getcwd()+ "/transcript_data"
 current_csv_files = os.listdir(dir_name)
 for item in current_csv_files:
     if item.endswith(".csv"):
+        os.remove(os.path.join(dir_name, item))
+# Clean Excel results
+dir_name = os.getcwd()+ "/results"
+current_csv_files = os.listdir(dir_name)
+for item in current_csv_files:
+    if item.endswith(".xlsx"):
         os.remove(os.path.join(dir_name, item))
 # Clean compiled CSVs
 dir_name = os.getcwd()+ "/csv_data"
@@ -157,13 +170,11 @@ for weight_cnt in range(len(weights)):
         pe_inject_file.writelines(pe_inject_file_lines)
         pe_inject_file.close()
         del pe_inject_file_lines
-        # Launch VSIM
-        print("... Running Modelsim")
         ############################################################################################################
         # Update these lines with your simulator command
-        # Launch VSIM
+        # Launch VSIM to compile and run
         print("... Running Modelsim")
-        subprocess.call( ["vsim","-c",  "-do", "do ./test_scripts/noc_accurate_only.do"], cwd=os.getcwd(), stdout=subprocess.DEVNULL,  stderr=subprocess.DEVNULL)
+        subprocess.call( ["vsim","-c",  "-do", "do ./test_scripts/noc_accurate_only.do"], cwd=os.getcwd(), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         ############################################################################################################
         print("... Concatenating results")
         if (injrates[injrate_cnt]) == 1.00 :
@@ -256,4 +267,4 @@ for weight_cnt in range(len(weights)):
     # Add Averages to sheet
     for avg_cnt in range(len(averages)):
             ws1.append([str(injrates[avg_cnt]), "='IR = "+str(injrates[avg_cnt])+"'!"+averages[avg_cnt]])
-    wb.save (filename = "results_accurate_only.xlsx")  
+    wb.save (filename = "./results/results_accurate_only.xlsx")  

@@ -51,10 +51,10 @@
 library ieee ;
   use ieee.std_logic_1164.all ;
   
-  use work.AlertLogPkg.all ;
-  use work.TranscriptPkg.all ; 
-  use work.ResolutionPkg.all ; 
-  use work.OsvvmGlobalPkg.all ;
+library osvvm ; 
+  use osvvm.AlertLogPkg.all ;
+  use osvvm.TranscriptPkg.all ; 
+  use osvvm.ResolutionPkg.all ; 
 
 package TbUtilPkg is
 
@@ -908,9 +908,9 @@ package body TbUtilPkg is
     else
       -- Schedule s.t. all assignments after the first occur on delta cycle 0   
       Clk <= '0', '1' after LOW_TIME ; 
-      wait for period - t_sim_resolution ; -- allows after on future Clk <= '0'
+      wait for period - 1 ns ; -- allows after on future Clk <= '0'
       loop 
-        Clk <= '0' after t_sim_resolution, '1' after LOW_TIME + t_sim_resolution ; 
+        Clk <= '0' after 1 ns, '1' after LOW_TIME + 1 ns ; 
         wait for period ; 
       end loop ; 
     end if ; 
@@ -932,8 +932,8 @@ package body TbUtilPkg is
       wait until Clk = CLK_ACTIVE ; 
       ObservedPeriod := now - LastLogTime ; 
       AffirmIf(AlertLogID, ObservedPeriod = Period, 
-         "CheckClockPeriod: " & ClkName & " Period: " & to_string(ObservedPeriod, GetOsvvmDefaultTimeUnits) & 
-         " = Expected " & to_string(Period, GetOsvvmDefaultTimeUnits)) ;
+         "CheckClockPeriod: " & ClkName & " Period: " & to_string(ObservedPeriod) & 
+         " = Expected " & to_string(Period)) ;
       LastLogTime := now ; 
      end loop ; 
      wait ; 

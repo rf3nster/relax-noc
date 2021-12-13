@@ -136,7 +136,7 @@ begin
 		if (rst = '1') then
 			report "Generating New Seeds" 
 				severity note;
-                   injectionTimes_rand.InitSeed(injectionTimes_rand'instance_name & to_string(x_coord)&to_string(y_coord) &"0.5141722919489845");
+                   injectionTimes_rand.InitSeed(injectionTimes_rand'instance_name & to_string(x_coord)&to_string(y_coord) &"0.7225013680664656");
 			injectiontimes_i <= injectiontimes_rand.RandIntV(0, (packet_period_size - 1), packets_per_period, packets_per_period);
 		end if;
 
@@ -156,7 +156,7 @@ begin
 		if (rst = '1') then
 			-- Generate new seeds
 			randdest.InitSeed(randdest'instance_name);
-                   randType.InitSeed(randDest'instance_name&to_string(x_coord)&to_string(y_coord) &"0.9196051247863181");
+                   randType.InitSeed(randDest'instance_name&to_string(x_coord)&to_string(y_coord) &"0.5198078759010308");
 			
 			-- Reset counters
 			periodtick_i            <= 0;
@@ -237,10 +237,13 @@ begin
 		variable buf_line_out : line;
 
 	begin
-
-		if (falling_edge(clk)) then
+		if (rst = '1') then 
+			-- Clear sent transcript
+			file_open(file_packet_transcript, "./transcript_data/transcript_sent_"&INTEGER'IMAGE(x_coord)&"_"&INTEGER'IMAGE(y_coord)&".csv", write_mode);
+			file_close(file_packet_transcript);		
+		elsif (falling_edge(clk)) then
 			if (injbuffer_popen_i = '1') then
-				file_open(file_packet_transcript, "transcript_sent_"&INTEGER'IMAGE(x_coord)&"_"&INTEGER'IMAGE(y_coord)&".csv", append_mode);
+				file_open(file_packet_transcript, "./transcript_data/transcript_sent_"&INTEGER'IMAGE(x_coord)&"_"&INTEGER'IMAGE(y_coord)&".csv", append_mode);
 				
 				-- Write ID
 				write(buf_line_out, to_integer(unsigned(dataout (2 * channel_data_size - 1 downto channel_data_size))));

@@ -1,6 +1,6 @@
 --
---  File Name:         MemoryPkg.vhd
---  Design Unit Name:  MemoryPkg
+--  File Name:         MemoryPkg_2019.vhd
+--  Design Unit Name:  MemoryPkg_2019
 --  Revision:          STANDARD VERSION
 --
 --  Maintainer:        Jim Lewis      email:  jim@synthworks.com 
@@ -25,6 +25,8 @@
 --    01/2016   2016.01    Update for buf.all(buf'left)
 --    11/2016   2016.11    Refinement to MemRead to return value, X (if X), U (if not initialized)
 --    01/2020   2020.01    Updated Licenses to Apache
+--    12/2020   2020.12    Beta version of MemoryPType with VHDL-2019 generics.
+--                         Used in place of MemoryPkg.  Tested in RivieraPro.  
 --
 --
 --  This file is part of OSVVM.
@@ -55,11 +57,12 @@ use work.TextUtilPkg.all ;
 use work.TranscriptPkg.all ;  
 use work.AlertLogPkg.all ;
 
-package MemoryPkg is
+package MemoryPkg_2019 is
   type MemoryPType is protected 
-    ------------------------------------------------------------
-    procedure MemInit ( AddrWidth, DataWidth  : in  integer ) ;
-    
+    generic (
+      constant AddrWidth : integer ;
+      constant DataWidth : integer   
+    ) ; 
     ------------------------------------------------------------
     procedure MemWrite ( Addr, Data  : in  std_logic_vector ) ; 
 
@@ -117,9 +120,9 @@ package MemoryPkg is
 
   end protected MemoryPType ;
 
-end MemoryPkg ;
+end MemoryPkg_2019 ;
 
-package body MemoryPkg is 
+package body MemoryPkg_2019 is 
   constant BLOCK_WIDTH : integer := 10 ; 
 
   type MemoryPType is protected body
@@ -129,33 +132,23 @@ package body MemoryPkg is
     type MemArrayType    is array (integer range <>) of MemBlockPtrType ;
     type ArrayPtrVarType is access MemArrayType ; 
 
-    variable ArrayPtrVar     : ArrayPtrVarType := NULL ; 
-    variable AddrWidthVar    : integer := -1 ;  -- set by MemInit - merges addr length and initialized checks.
-    variable DataWidthVar    : natural := 1 ;   -- set by MemInit
-    variable BlockkWidthVar  : natural := 0 ;   -- set by MemInit
+--!!    variable ArrayPtrVar     : ArrayPtrVarType := NULL ; 
+--!!    variable AddrWidthVar    : integer := -1 ;  -- set by MemInit - merges addr length and initialized checks.
+--!!    variable DataWidthVar    : natural := 1 ;   -- set by MemInit
+--!!    variable BlockkWidthVar  : natural := 0 ;   -- set by MemInit
     
+--!!
+--!! TODO:  AddrWidthVar f(AddrWidth, DataWidth)
+--!! TODO:  DataWidthVar f(DataWidth mod 16)
+--!!
+    variable DataWidthVar    : natural := DataWidth ;  -- set by Generic
+    variable AddrWidthVar    : integer := AddrWidth ;  -- set by Generic 
+    variable BlockkWidthVar  : natural := minimum(BLOCK_WIDTH, AddrWidth) ;   -- set by Generic
+    variable ArrayPtrVar     : ArrayPtrVarType := new MemArrayType(0 to 2**(AddrWidth-BlockkWidthVar)-1) ; 
+
     variable AlertLogIDVar : AlertLogIDType := OSVVM_ALERTLOG_ID ;
     
     type FileFormatType is (BINARY, HEX) ; 
-    
-    ------------------------------------------------------------
-    procedure MemInit ( AddrWidth, DataWidth  : In  integer ) is
-    ------------------------------------------------------------
-    begin
-      if AddrWidth <= 0 then 
-        Alert(AlertLogIDVar, "MemoryPType.MemInit.  AddrWidth = " & to_string(AddrWidth) & " must be > 0.", FAILURE) ; 
-        return ; 
-      end if ; 
-      if DataWidth <= 0 then 
-        Alert(AlertLogIDVar, "MemoryPType.MemInit.  DataWidth = " & to_string(DataWidth) & " must be > 0.", FAILURE) ; 
-        return ; 
-      end if ; 
-
-      AddrWidthVar   := AddrWidth ; 
-      DataWidthVar   := DataWidth ; 
-      BlockkWidthVar := minimum(BLOCK_WIDTH, AddrWidth) ;
-      ArrayPtrVar    := new MemArrayType(0 to 2**(AddrWidth-BlockkWidthVar)-1) ;  
-    end procedure MemInit ;
     
     ------------------------------------------------------------
     procedure MemWrite (  Addr, Data  : in  std_logic_vector ) is 
@@ -668,4 +661,4 @@ package body MemoryPkg is
     
   end protected body MemoryPType ;
  
-end MemoryPkg ;
+end MemoryPkg_2019 ;

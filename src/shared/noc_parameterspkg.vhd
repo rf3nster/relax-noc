@@ -57,9 +57,9 @@ package noc_parameterspkg is
 
 	-- Weights for accurate and approximate data transmission
 	-- Percentage weight = Defined Weight of Data Type / Sum of defined weights
-	-- To keep things simple, make total is 100
-	constant acc_data_weight : natural := 10;
-	constant apx_data_weight : natural := 90;
+	-- To keep things simple, make sure total is 100
+    constant acc_data_weight : natural := 50;
+    constant apx_data_weight : natural := 50;
 
 	------------------------------------
 	-- Config-Dependent Values
@@ -80,7 +80,7 @@ package noc_parameterspkg is
 	constant cc_max_width : integer := integer(log2(real(clock_cycle_max)));
 
 	-- Number of packets required per period (Injection Rate = packets_per_period / packet_period_size)
-	constant packets_per_period : integer := 400;
+    constant packets_per_period : integer := 100;
 
 	------------------------------------
 	-- Records
@@ -88,10 +88,10 @@ package noc_parameterspkg is
 	-- Packet
 
 	type packet_t is record
-		dataA : std_logic_vector(channel_data_size - 1 downto 0);
-		dataB : std_logic_vector(channel_data_size - 1 downto 0);
-		addrA : std_logic_vector(addr_data_size - 1 downto 0);
-		addrB : std_logic_vector(addr_data_size - 1 downto 0);
+		dataa : std_logic_vector(channel_data_size - 1 downto 0);
+		datab : std_logic_vector(channel_data_size - 1 downto 0);
+		addra : std_logic_vector(addr_data_size - 1 downto 0);
+		addrb : std_logic_vector(addr_data_size - 1 downto 0);
 	end record;
 
 	-- Clear to Send

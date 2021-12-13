@@ -38,10 +38,11 @@ entity tile_top is
 	);
 	port (
 		-- System Control
-		clk         : in    std_logic;
-		rst         : in    std_logic;
-		networkmode : in    std_logic;
-		
+		clk             : in    std_logic;
+		rst             : in    std_logic;
+		networkmode     : in    std_logic;
+		injectionenable : in    std_logic;
+
 		-- Tick Count
 		currenttick : in    unsigned(cc_max_width - 1 downto 0);
 		
@@ -152,7 +153,7 @@ begin
 			rst             => rst,
 			networkmode     => networkmode,
 			currenttick     => currenttick,
-			injectionenable => rx_pe_injectionenable,
+			injectionenable => injectionenable,
 			destout         => rx_pe_dest_in,
 			dataout         => rx_pe_data_in,
 			writeen         => rx_pe_writeen_i,
