@@ -46,7 +46,7 @@ Please view [`weights.dat`](https://github.com/rf3nster/relax-noc/blob/main/weig
 
 
 ## Usage
-Without modification to any scripts, it is assumed that Modelsim is found in `$PATH` (for Linux) or `%PATH%` (for Windows). Simply invoke the run_mixed_weighted_test.py  script with Python 3.x for mixed mode, or `run_accurate_only.py` for accurate-only mode. The script will execute a total of passes, defined by the number of weight sets specified. After each pass, the results can be found as a CSV file in `./csv_data`. Results of the pass will be written to Excel (.xlsx) files in the root directory as well. The network topology used is a mesh topology. By default, a 4x4 network will be simulated.
+Without modification to any scripts, it is assumed that Modelsim is found in `$PATH` (for Linux) or `%PATH%` (for Windows). Make sure that the root directory of the repository is the working directory then simply invoke the run_mixed.py script with Python 3.x for mixed mode, or `run_accurate_only.py` for accurate-only mode. The script will execute a total of passes, defined by the number of weight sets specified. After each pass, the results can be found as a CSV file in `./csv_data`. Results of the pass will be written to Excel (.xlsx) files in directory `results` as well. The network topology used is a mesh topology. By default, a 4x4 network will be simulated.
 
 > Note: The Python scripts are designed in such a way that the environment is cleared at launch. Make sure that any desired results have been copied from the directory before re-launching!
 
