@@ -140,12 +140,12 @@ package xbar_componentspkg is
 			-- Data Available
 			--------------------------------------
 			-- RX
-			rx_channela_dataavail_in : in    xbar_dataavailable_t;
-			rx_channelb_dataavail_in : in    xbar_dataavailable_t;
+			rx_channela_dataavailable_in : in    xbar_dataavailable_t;
+			rx_channelb_dataavailable_in : in    xbar_dataavailable_t;
 
 			-- TX
-			tx_channela_dataavail_out : out   std_logic;
-			tx_channelb_dataavail_out : out   std_logic;
+			tx_channela_dataavailable_out : out   std_logic;
+			tx_channelb_dataavailable_out : out   std_logic;
 	
 			--------------------------------------
 			-- Pop Request

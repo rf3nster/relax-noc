@@ -256,14 +256,14 @@ begin
 	begin
 
 		if (rst = '1') then
-			file_open(file_received_transcript, "transcript_received_"&INTEGER'IMAGE(x_coord)&"_"&INTEGER'IMAGE(y_coord)&".csv", write_mode);
+			file_open(file_received_transcript, "./transcript_data/transcript_received_"&INTEGER'IMAGE(x_coord)&"_"&INTEGER'IMAGE(y_coord)&".csv", write_mode);
 			file_close(file_received_transcript);
 			
 		-- Check if approximate data first
 		elsif (datarqstmade_apx = '1' and apxavailable_i = '1' and falling_edge(clk)) then
 			report "APX Received"
 				severity note;
-			file_open(file_received_transcript, "transcript_received_"&INTEGER'IMAGE(x_coord)&"_"&INTEGER'IMAGE(y_coord)&".csv", append_mode);
+			file_open(file_received_transcript, "./transcript_data/transcript_received_"&INTEGER'IMAGE(x_coord)&"_"&INTEGER'IMAGE(y_coord)&".csv", append_mode);
 				
 			-- Write ID
 			write(buf_line_out, to_integer(unsigned(dataout_i(2*channel_data_size - 1 downto channel_data_size))));
@@ -294,7 +294,7 @@ begin
 		elsif (datarqstmade_acc = '1' and accavailable_i = '1' and falling_edge(clk)) then
 			report "ACC Received"
 				severity note;
-			file_open(file_received_transcript, "transcript_received_"&INTEGER'IMAGE(x_coord)&"_"&INTEGER'IMAGE(y_coord)&".csv", append_mode);
+			file_open(file_received_transcript, "./transcript_data/transcript_received_"&INTEGER'IMAGE(x_coord)&"_"&INTEGER'IMAGE(y_coord)&".csv", append_mode);
 				
 			-- Write ID
 			write(buf_line_out, to_integer(unsigned(dataout_i(2*channel_data_size - 1 downto channel_data_size))));
